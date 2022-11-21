@@ -10,26 +10,10 @@ function convertPokeApiDetailToPokemon(pokeDetail) {
     pokemon.pkm_types = types
     pokemon.pkm_type = type
     pokemon.pkm_image = pokeDetail.sprites.other.dream_world.front_default
+    pokemon.pkm_height = pokeDetail.height
+    pokemon.pkm_weight = pokeDetail.weight
 
     return pokemon
-}
-
-function createPokemonData(pokeDetail){
-    const selectedPokemon = new Pokemon()
-    
-    selectedPokemon.pkm_number = pokeDetail.id
-    selectedPokemon.pkm_name = pokeDetail.name
-    const types = pokeDetail.types.map((typeSlot) => typeSlot.type.name)
-    const [type] = types
-    selectedPokemon.pkm_types = types
-    selectedPokemon.pkm_type = type
-    selectedPokemon.pkm_image = pokeDetail.sprites.other.dream_world.front_default
-    selectedPokemon.pkm_height = pokeDetail.height
-    selectedPokemon.pkm_weight = pokeDetail.weight
-
-
-    return selectedPokemon
-    
 }
 
 pokeapi.getPokemonDetail = (pokemon) => {
@@ -50,7 +34,7 @@ const selectPokemon = async (id) => {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`
     return await fetch(url)
         .then((response) => response.json())
-        .then(createPokemonData).then((pokemon) => displayPopup(pokemon))
+        .then(convertPokeApiDetailToPokemon).then((pokemon) => displayPopup(pokemon))
 }
 
 
